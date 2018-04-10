@@ -4,6 +4,8 @@ require "pry" if development? || test?
 require_relative 'config/application'
 require "sinatra/activerecord"
 
+#PROBLEM - how to get a "success!" method when a party is created?
+
 set :bind, '0.0.0.0'  # bind to all interfaces
 
 # def form_complete(array)
@@ -24,10 +26,20 @@ get '/parties/new' do
   erb :'parties/new_party'
 end
 
+get '/parties/:id/:message' do
+  id = params[:id]
+
+  @party = Party.find(id)
+  @message = params[:message]
+
+  erb :'parties/single_party'
+end
+
 get '/parties/:id' do
   id = params[:id]
 
   @party = Party.find(id)
+  @message = params[:message]
 
   erb :'parties/single_party'
 end
@@ -60,6 +72,8 @@ post '/parties/new' do
 
     id = Party.last.id
 
-    redirect "/parties/#{id}"
+    message = "Your party has been created!"
+
+    redirect "/parties/#{id}/#{message}"
   end
 end
