@@ -8,15 +8,7 @@ require "sinatra/activerecord"
 
 set :bind, '0.0.0.0'  # bind to all interfaces
 
-# def form_complete(array)
-#   array.each do |item|
-#     if item == ""
-#       return false
-#     end
-#   end
-#   return true
-# end
-
+# GET ROUTES
 get '/' do
   redirect '/parties'
 end
@@ -50,7 +42,25 @@ get '/parties' do
   erb :'parties/index'
 end
 
+get '/friends' do
 
+  @friends = Friend.order(first_name: :asc)
+
+  erb :'friends/index'
+end
+
+get '/friends/new' do
+  erb :'friends/new_friend'
+end
+
+get '/friends/:message' do
+  @message = params[:message]
+  @friends = Friend.order(first_name: :asc)
+
+  erb :'friends/index'
+end
+
+# POST ROUTES
 post '/parties/new' do
   @party_name = params[:name]
   @party_description = params[:description]
@@ -75,5 +85,28 @@ post '/parties/new' do
     message = "Your party has been created!"
 
     redirect "/parties/#{id}/#{message}"
+  end
+end
+
+post '/friends/new' do
+  @first_name = params[:first_name]
+  @last_name = params[:last_name]
+
+  if @first_name == "" ||
+    @last_name == ""
+
+    erb :'/friends/new_friend'
+  else
+
+    Friend.create(
+      first_name: @first_name,
+      last_name: @last_name
+    )
+
+    id = Friend.last.id
+
+    @message = "Your friend has been added to the list!"
+
+    redirect "/friends/#{@message}"
   end
 end
