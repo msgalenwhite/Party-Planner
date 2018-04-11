@@ -34,9 +34,8 @@ get '/parties/:id' do
 
   @party = Party.find(id)
   @invited_friends = @party.friends
-  all_friends = Friend.all
 
-  @remaining_friends = all_friends.reject { |friend| @invited_friends.include?(friend) }
+  @remaining_friends = Friend.all.reject { |friend| @invited_friends.include?(friend) }
   @message = params[:message]
 
   erb :'parties/single_party'
@@ -52,7 +51,7 @@ end
 
 get '/friends' do
 
-  @friends = Friend.order(first_name: :asc)
+  @friends = Friend.all
 
   erb :'friends/index'
 end
@@ -64,7 +63,7 @@ end
 
 get '/friends/:message' do
   @message = params[:message]
-  @friends = Friend.order(first_name: :asc)
+  @friends = Friend.all
 
   erb :'friends/index'
 end

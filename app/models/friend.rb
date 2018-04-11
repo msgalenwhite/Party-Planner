@@ -5,4 +5,6 @@ class Friend < ActiveRecord::Base
 
   has_many :invited_friends
   has_many :parties, through: :invited_friends
+
+  default_scope { order(first_name: :asc) }
 end
