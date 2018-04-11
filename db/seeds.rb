@@ -7,3 +7,8 @@
 20.times do
   Person.create(first_name: "Sally", last_name: "Mae")
 end
+
+
+15.times do
+  Friend.create()
+end

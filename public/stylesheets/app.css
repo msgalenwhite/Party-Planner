@@ -33,3 +33,11 @@ a:visited {
   padding: 1em;
   background-color: #FFD800;
 }
+
+.submitButton {
+  border-radius: 5px;
+  text-align: center;
+  padding: 3px 10px;
+  color: #ed1a7b;
+  font-size: 15px;
+}
