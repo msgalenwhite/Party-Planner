@@ -10,6 +10,9 @@ require "faker"
 set :bind, '0.0.0.0'  # bind to all interfaces
 
 # GET ROUTES
+
+### PARTY GET ROUTES
+
 get '/' do
   redirect '/parties'
 end
@@ -46,6 +49,8 @@ get '/parties' do
 
   erb :'parties/index'
 end
+
+### FRIEND GET ROUTES
 
 get '/friends' do
 
