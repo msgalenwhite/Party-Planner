@@ -32,6 +32,10 @@ get '/parties/:id' do
   id = params[:id]
 
   @party = Party.find(id)
+  @invited_friends = @party.friends
+  all_friends = Friend.all  # but we don't want to see them if they're invited!
+
+  @remaining_friends = all_friends.reject { |friend| @invited_friends.include?(friend) }
   @message = params[:message]
 
   erb :'parties/single_party'
@@ -85,6 +89,15 @@ post '/parties/new' do
 
     erb :'/parties/new_party'
   end
+end
+
+post '/parties/:id' do
+  party_id = params[:id]
+  new_friend_id = params[:new_invite]
+
+  InvitedFriend.create(party_id: party_id, friend_id: new_friend_id)
+
+  redirect "/parties/#{party_id}"
 end
 
 post '/friends/new' do

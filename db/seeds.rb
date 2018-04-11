@@ -23,7 +23,7 @@ end
 end
 
 # how do I make sure that I don't have repeats of combinations?
-50.times do
+100.times do
   random_person_id = 1 + rand(20)
   random_party_id = 1 + rand(7)
 
