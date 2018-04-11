@@ -3,6 +3,7 @@ require "sinatra/reloader" if development?
 require "pry" if development? || test?
 require_relative 'config/application'
 require "sinatra/activerecord"
+require "faker"
 
 #PROBLEM - how to get a "success!" method when a party is created?
 
