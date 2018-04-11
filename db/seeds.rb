@@ -4,3 +4,6 @@
 # Example:
 #
 #   Person.create(first_name: 'Eric', last_name: 'Kelly')
+20.times do
+  Person.create(first_name: "Sally", last_name: "Mae")
+end

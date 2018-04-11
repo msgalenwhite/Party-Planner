@@ -1,7 +1,9 @@
 <h1>Congrats for making a new friend!</h1>
 
 <br/>
-<h4><%= @message %></h4>
+<% @errors.each do |error_message| %>
+  <h5><%= error_message %></h5>
+<% end %>
 <form method='post'>
   <label for='name'>First Name:</label>
   <input

@@ -14,7 +14,7 @@ get '/' do
 end
 
 get '/parties/new' do
-
+  @errors = []
   erb :'parties/new_party'
 end
 
@@ -50,6 +50,7 @@ get '/friends' do
 end
 
 get '/friends/new' do
+  @errors = []
   erb :'friends/new_friend'
 end
 
@@ -62,29 +63,26 @@ end
 
 # POST ROUTES
 post '/parties/new' do
+
+# #validate on the model, so we can use 'new' each time, and save will only work if it passes the validation (so this becomes our conditonal)
+
   @party_name = params[:name]
   @party_description = params[:description]
   @party_location = params[:location]
 
-  if @party_name == "" ||
-    @party_description == "" ||
-    @party_location == ""
+  new_party = Party.new(name: @party_name, location: @party_location, description: @party_description)
 
-    @message = "Please fill the form completely."
-    erb :'/parties/new_party'
-  else
-
-    Party.create(
-      name: @party_name,
-      location: @party_location,
-      description: @party_description
-    )
+  if new_party.save
 
     id = Party.last.id
-
     message = "Your party has been created!"
 
+# #flash messages would be way better
     redirect "/parties/#{id}/#{message}"
+  else
+    @errors = new_party.errors.full_messages
+
+    erb :'/parties/new_party'
   end
 end
 
@@ -92,22 +90,17 @@ post '/friends/new' do
   @first_name = params[:first_name]
   @last_name = params[:last_name]
 
-  if @first_name == "" ||
-    @last_name == ""
+  new_friend = Friend.new(first_name: @first_name, last_name: @last_name)
 
-    @message = "Please fill the form completely."
-    erb :'/friends/new_friend'
-  else
-
-    Friend.create(
-      first_name: @first_name,
-      last_name: @last_name
-    )
+  if (new_friend.save)
 
     id = Friend.last.id
 
     @message = "Your friend has been added to the list!"
-
     redirect "/friends/#{@message}"
+  else
+    # THIS RETURNS AN ARRAY
+    @errors = new_friend.errors.full_messages
+    erb :'/friends/new_friend'
   end
 end
