@@ -66,11 +66,11 @@ post '/parties/new' do
   @party_description = params[:description]
   @party_location = params[:location]
 
-  # if !form_complete([@party_name, @party_location, @party_description])
   if @party_name == "" ||
     @party_description == "" ||
     @party_location == ""
 
+    @message = "Please fill the form completely."
     erb :'/parties/new_party'
   else
 
@@ -95,6 +95,7 @@ post '/friends/new' do
   if @first_name == "" ||
     @last_name == ""
 
+    @message = "Please fill the form completely."
     erb :'/friends/new_friend'
   else
 
