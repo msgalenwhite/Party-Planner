@@ -5,8 +5,6 @@ require_relative 'config/application'
 require "sinatra/activerecord"
 require "faker"
 
-#PROBLEM - how to get a "success!" method when a party is created?
-
 set :bind, '0.0.0.0'  # bind to all interfaces
 
 # GET ROUTES
@@ -36,7 +34,7 @@ get '/parties/:id' do
 
   @party = Party.find(id)
   @invited_friends = @party.friends
-  all_friends = Friend.all  # but we don't want to see them if they're invited!
+  all_friends = Friend.all
 
   @remaining_friends = all_friends.reject { |friend| @invited_friends.include?(friend) }
   @message = params[:message]
