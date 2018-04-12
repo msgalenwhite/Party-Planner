@@ -6,26 +6,31 @@ require "faker"
 # Example:
 #
 #   Person.create(first_name: 'Eric', last_name: 'Kelly')
-10.times do
-  name = Faker::TheFreshPrinceOfBelAir.character.split(" ")
+20.times do
+  first_name = Faker::Name.unique.first_name
 
-  Friend.create(first_name: "#{name[0]}", last_name: "#{name[1]}")
+  last_name = Faker::Name.unique.last_name
+
+  Friend.create(first_name: first_name, last_name: last_name)
 end
 
+# # if I wanted to clear out my record of unique names:
+# Faker::Pokemon.unique.clear #clears specific library
+# Faker::UniqueGenerator.clear # Clears used values for all generators
 
-7.times do
-  celebrity = Faker::TheFreshPrinceOfBelAir.celebrity
-  party_name = "#{celebrity}'s Party"
-  party_location = "#{celebrity}'s House"
-  party_description = "Guaranteed to make you say, '#{Faker::TheFreshPrinceOfBelAir.quote}'"
+10.times do
+  celebrity = Faker::Pokemon.name
+  party_name = "It's a #{celebrity} Party!"
+  party_location = Faker::Pokemon.location
+  party_description = "Guaranteed to make you #{Faker::Pokemon.unique.move}"
 
   Party.create(name: party_name, location: party_location, description: party_description)
 end
 
-# how do I make sure that I don't have repeats of combinations?
-100.times do
-  random_person_id = 1 + rand(20)
-  random_party_id = 1 + rand(7)
 
-  InvitedFriend.create(friend_id: random_person_id, party_id: random_party_id)
+40.times do
+  random_person_id = 1 + rand(20)
+  random_party_id = 1 + rand(10)
+
+  InvitedFriend.create(friend: Friend.find(random_person_id), party: Party.find(random_party_id))
 end
